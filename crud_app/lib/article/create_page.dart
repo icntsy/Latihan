@@ -32,13 +32,13 @@ class CreatePage extends StatelessWidget {
               onPressed: (){
                 // print(controller.contentCont.text);
 
-                final response = http.post(Uri.parse('http://192.168.34.95:8000/api/article'), body: {
-                  'title': controller.titleCont.text,
-                  'content': controller.contentCont.text,
-                });
+                // final response = http.post(Uri.parse('http://192.168.34.95:8000/api/article'), body: {
+                //   'title': controller.titleCont.text,
+                //   'content': controller.contentCont.text,
+                // });
 
                 
-                // controller.create();
+                controller.create();
                 Get.back();
               },
             ),

@@ -8,7 +8,6 @@ import 'package:crud_app/article/update_page.dart';
 class ArticlePage extends StatelessWidget {
   final controller = Get.put(ArticleController());
 
-  print(controller);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

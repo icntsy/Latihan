@@ -19,7 +19,6 @@ class ArticleController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getAll();
   }
@@ -30,7 +29,6 @@ class ArticleController extends GetxController {
         .map((e) => Article.fromJson(e))
         .toList();
     articleList.assignAll(newArticleList);
-
   }
 
 
