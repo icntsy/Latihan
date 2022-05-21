@@ -31,7 +31,7 @@ class ArticleController extends GetxController {
     articleList.assignAll(newArticleList);
   }
 
-
+ 
   void create() async {
     Response response = await provider
       .create({'title': titleCont.text, 'content': contentCont.text});

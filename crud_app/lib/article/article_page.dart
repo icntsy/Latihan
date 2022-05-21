@@ -12,7 +12,7 @@ class ArticlePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Artikel'),
+        title: Center(child: Text('Daftar Artikel')),
       ),
       body: Obx(
         () => ListView.separated(
