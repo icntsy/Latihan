@@ -15,16 +15,13 @@ Future main() async {
 class MyApp extends StatelessWidget {
   static final String title = 'Praktikum 13';
   @override
-  Widget build(BuildContext context) =>  MaterialApp(
-    debugShowCheckedModeBanner: false,
-      title: title,
-      theme: ThemeData(
-        primarySwatch: Colors.pink
-      ),
-      home: MainPageState(),
-    );
-  }
-
+  Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: title,
+        theme: ThemeData(primarySwatch: Colors.pink),
+        home: MainPageState(),
+      );
+}
 
 class MainPageState extends StatefulWidget {
   @override
@@ -35,44 +32,45 @@ class _MainPageStateState extends State<MainPageState> {
   final controller = TextEditingController();
   @override
   Widget build(BuildContext context) => Scaffold(
-          appBar: AppBar(
-        title: Text(
-          'All Users'
+        appBar: AppBar(
+          title: Text('All Users'),
         ),
-        
-      ),
-      body: StreamBuilder<List<User>>(
-        stream: readUsers(),
-        builder: (context, snapshot){
-          if (snapshot.hasError) {
-            return Text('Soomething went wrong! ${snapshot.error}');
-          } else if (snapshot.hasData){
-            final users = snapshot.data!;
-            return ListView(
-              children: users.map(buildUser).toList(),
-            );
-          }else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => UserPage()
-            )
-            );
-        }),
+        body: StreamBuilder<List<User>>(
+          stream: readUsers(),
+          builder: (context, snapshot) {
+            // if (snapshot.hasError) {
+            //   return Text('Error! ${snapshot.error}');
+            // } else if (snapshot.hasData) {
+            //   final users = snapshot.data!;
+            if (snapshot.hasError) {
+              return Center(
+                child: Text('Error'),
+              );
+            } else if (snapshot.hasData) {
+              final users = snapshot.data!;
+              return ListView(
+                children: users.map(buildUser).toList(),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => UserPage()));
+            }),
       );
 
-      Widget buildUser(User user) => ListTile(
+  Widget buildUser(User user) => ListTile(
         leading: CircleAvatar(child: Text('${user.age}')),
         title: Text(user.name),
         subtitle: Text(user.birthday.toIso8601String()),
       );
 
-Stream<List<User>> readUsers() => FirebaseFirestore.instance
+  Stream<List<User>> readUsers() => FirebaseFirestore.instance
       .collection('users')
       .snapshots()
       .map((snapshot) =>
@@ -86,14 +84,13 @@ Stream<List<User>> readUsers() => FirebaseFirestore.instance
   Future createUser({required String name}) async {
     final docUser = FirebaseFirestore.instance.collection('users').doc();
 
-  final user = User(
-    id: docUser.id,
-    name: name,
-    age: 21,
-    birthday: DateTime(2001, 8, 24),
-
-  );
-  final json = user.toJson();
+    final user = User(
+      id: docUser.id,
+      name: name,
+      age: 21,
+      birthday: DateTime(2001, 8, 24),
+    );
+    final json = user.toJson();
     await docUser.set(json);
   }
 }
